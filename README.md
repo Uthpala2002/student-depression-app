@@ -9,6 +9,11 @@
 
 This is **my first individual project** built completely on my own **without any academic guidance or supervision**. This is a **Machine Learning** project that predicts the risk of depression among students using an **XGBoost model**. The web application provides an easy-to-use interface for students to assess their mental health risk based on academic, lifestyle, and personal factors.
 
+### 🎥 Demo Video
+
+Watch the demo here:  
+**[▶️ Watch Demo Video](https://drive.google.com/file/d/1T2WLk0dNT0zcOGanq2qq8PL1yJyzTPnG/view?usp=drive_link)**
+
 ### ✨ Features
 
 - **Interactive Dashboard** with real-time inputs
