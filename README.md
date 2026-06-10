@@ -1,38 +1,42 @@
 # 🧠 Student Depression Prediction App
 
-This is a Machine Learning project that predicts student depression risk using XGBoost and Streamlit.
+![Student Depression Prediction](https://img.shields.io/badge/Status-Live-brightgreen)
 
-## 🚀 Features
-- AI-powered prediction system
-- Streamlit web app
-- XGBoost model (~79% accuracy)
-- Feature importance visualization
+**Live Demo:** https://uthpala2002.github.io/student-depression-app/
+---
 
-## 🎥 Demo Video
-(https://drive.google.com/file/d/1-E_P2oXErlt8x2FyoXKeCSF2v0ZDnF9E/view?usp=sharing)
+### 📋 Project Overview
 
-## 🛠 Tech Stack
-- Python
-- Scikit-learn
-- XGBoost
-- Streamlit
-- Pandas
+This is **my first individual project** built completely on my own **without any academic guidance or supervision**. This is a **Machine Learning** project that predicts the risk of depression among students using an **XGBoost model**. The web application provides an easy-to-use interface for students to assess their mental health risk based on academic, lifestyle, and personal factors.
 
-## ▶ How to run locally
-```bash
-streamlit run app.py
+### ✨ Features
 
-## 🚀 Version 2.0 Improvements
+- **Interactive Dashboard** with real-time inputs
+- **CGPA Scale Converter** (supports both 4.0 and 10.0 scales)
+- **AI-powered Risk Prediction** (High / Moderate / Low)
+- **User-friendly Dark Theme UI**
+- **Fully Client-side** (works offline after loading)
+- **Responsive Design**
 
-I recently refactored and upgraded this machine learning pipeline to improve robustness and predictive performance. Key enhancements include:
+### 🛠 Tech Stack
 
-* **Feature Engineering & Data Preprocessing:** * Expanded the feature space from 6 to **14 relevant features**.
-    * Integrated `StandardScaler` into the numerical pipeline to prevent scale bias.
-    * Added `stratify=y` to the train-test split to ensure balanced class distributions across folds.
-* **Model Optimization & Evaluation:**
-    * Implemented `RandomizedSearchCV` to automate and optimize hyperparameter tuning.
-    * Corrected the feature importance pipeline to utilize **XGBoost's intrinsic importance metrics** rather than Random Forest.
-    * Refactored accuracy scoring to be computed **dynamically** rather than hardcoded.
-* **Outputs & Usability:**
-    * Added a **Confusion Matrix visualization** to better analyze true/false positives and negatives.
-    * Upgraded the inference pipeline: the prediction function now returns the **class probability** alongside the final class label for better decision confidence.
+- **Frontend**: HTML, CSS, JavaScript
+- **ML Model**: XGBoost (trained on Student Depression Dataset)
+- **Visualization**: Chart.js
+- **Deployment**: GitHub Pages
+
+### 📊 Dataset
+
+- Used **Student Depression Dataset** (140,000+ records)
+- Key features: Academic Pressure, CGPA, Sleep Duration, Suicidal Thoughts, Financial Stress, etc.
+
+### 🚀 How to Use
+
+1. Visit the [live application]( https://uthpala2002.github.io/student-depression-app/)
+2. Fill in your details (especially CGPA and scale)
+3. Click **"🚀 Get Prediction"**
+4. Get instant risk assessment
+
+---
+
+### 📁 Project Structure
