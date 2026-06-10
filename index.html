@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Depression Risk Dashboard</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Calibri:wght@400;500;600&display=swap');
+    
+    body {
+      font-family: 'Calibri', system-ui, sans-serif;
+      background: #0a0a0a;
+      color: #e5e7eb;
+      margin: 0;
+      padding: 20px;
+    }
+    .container { max-width: 1280px; margin: auto; }
+    h1 { color: #60a5fa; text-align: center; margin-bottom: 8px; }
+    .subtitle { text-align: center; color: #9ca3af; margin-bottom: 30px; font-size: 18px; }
+    .card {
+      background: #1f2937;
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5);
+    }
+    .section { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+    label { display: block; margin-bottom: 8px; color: #9ca3af; font-weight: 500; }
+    input[type="range"] { width: 100%; accent-color: #60a5fa; }
+    select {
+      width: 100%; padding: 12px; background: #374151; border: 1px solid #4b5563;
+      border-radius: 8px; color: white; font-size: 16px;
+    }
+    .slider-container { 
+      display: flex; 
+      align-items: center; 
+      gap: 12px; 
+    }
+    .slider-value { 
+      font-weight: 600; 
+      color: #60a5fa; 
+      min-width: 50px; 
+      text-align: right; 
+      font-size: 18px;
+    }
+    .radio-group { display: flex; gap: 24px; margin: 10px 0; }
+    .radio-option { display: flex; align-items: center; gap: 8px; cursor: pointer; font-size: 16px; }
+    
+    button {
+      padding: 14px 32px; background: #3b82f6; color: white; border: none;
+      border-radius: 8px; font-weight: 600; cursor: pointer; font-size: 17px;
+      margin: 10px 5px;
+    }
+    button:hover { background: #2563eb; }
+    .predict-btn { background: #10b981; font-size: 18px; padding: 16px 40px; }
+    .predict-btn:hover { background: #059669; }
+    .reset-btn { background: #6b7280; }
+    .reset-btn:hover { background: #4b5563; }
+
+    .result {
+      font-size: 28px; font-weight: 600; padding: 24px; border-radius: 12px;
+      text-align: center; margin: 20px 0; min-height: 80px;
+    }
+    .high { background: #7f1d1d; color: #fda4af; }
+    .moderate { background: #78350f; color: #fcd34d; }
+    .low { background: #14532d; color: #86efac; }
+    .info { font-size: 15px; color: #60a5fa; margin-top: 4px; }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>🧠 Student Depression Risk Prediction</h1>
+  <p class="subtitle">Real-time Mental Health Insights</p>
+
+  <div class="card">
+    <div class="section">
+      <div>
+        <h2 style="color:#60a5fa; margin-bottom:20px;">Personal & Academic Info</h2>
+        
+        <label>Gender</label>
+        <select id="gender">
+          <option value="Female">Female</option>
+          <option value="Male">Male</option>
+        </select>
+
+        <label>Age</label>
+        <div class="slider-container">
+          <input type="range" id="age" min="16" max="40" value="22" oninput="updateSliderValue('age')">
+          <span id="ageValue" class="slider-value">22</span>
+        </div>
+
+        <label>Profession</label>
+        <select id="profession">
+          <option value="Student">Student</option>
+        </select>
+
+        <label>CGPA Scale</label>
+        <select id="scale" onchange="updateCGPASlider()">
+          <option value="4">Out of 4.0 (My University)</option>
+          <option value="10" selected>Out of 10.0</option>
+        </select>
+
+        <label>CGPA</label>
+        <div class="slider-container">
+          <input type="range" id="cgpa" min="0" max="10" step="0.1" value="7" oninput="updateSliderValue('cgpa')">
+          <span id="cgpaValue" class="slider-value">7.0</span>
+        </div>
+        <div id="cgpaInfo" class="info"></div>
+
+        <label>Academic Pressure (0=None, 5=Extreme)</label>
+        <div class="slider-container">
+          <input type="range" id="academic_pressure" min="0" max="5" value="3" oninput="updateSliderValue('academic_pressure')">
+          <span id="acadValue" class="slider-value">3</span>
+        </div>
+
+        <label>Study Satisfaction (0=Very Low, 5=Very High)</label>
+        <div class="slider-container">
+          <input type="range" id="study_satisfaction" min="0" max="5" value="3" oninput="updateSliderValue('study_satisfaction')">
+          <span id="satValue" class="slider-value">3</span>
+        </div>
+      </div>
+
+      <div>
+        <h2 style="color:#60a5fa; margin-bottom:20px;">Lifestyle & Mental Health</h2>
+
+        <label>Sleep Duration</label>
+        <select id="sleep">
+          <option value="7-8 hours">7-8 hours</option>
+          <option value="5-6 hours">5-6 hours</option>
+          <option value="Less than 5 hours">Less than 5 hours</option>
+          <option value="More than 8 hours">More than 8 hours</option>
+        </select>
+
+        <label>Dietary Habits</label>
+        <select id="diet">
+          <option value="Moderate">Moderate</option>
+          <option value="Healthy">Healthy</option>
+          <option value="Unhealthy">Unhealthy</option>
+        </select>
+
+        <label>Financial Stress (0=None, 5=Extreme)</label>
+        <div class="slider-container">
+          <input type="range" id="financial_stress" min="0" max="5" value="2" oninput="updateSliderValue('financial_stress')">
+          <span id="finValue" class="slider-value">2</span>
+        </div>
+
+        <label>Have you ever had suicidal thoughts?</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="suicidal" value="Yes"> Yes</label>
+          <label class="radio-option"><input type="radio" name="suicidal" value="No" checked> No</label>
+        </div>
+
+        <label>Family History of Mental Illness</label>
+        <div class="radio-group">
+          <label class="radio-option"><input type="radio" name="family" value="Yes"> Yes</label>
+          <label class="radio-option"><input type="radio" name="family" value="No" checked> No</label>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center; margin:20px 0;">
+    <button class="predict-btn" onclick="getPrediction()">🚀 Get Prediction</button>
+    <button class="reset-btn" onclick="resetForm()">Reset All Fields</button>
+  </div>
+
+  <div class="card">
+    <h2 style="color:#60a5fa; text-align:center;">Prediction Result</h2>
+    <div id="result" class="result">Click "Get Prediction" after filling all details</div>
+    <p id="confidence" style="text-align:center; font-size:18px; color:#9ca3af;"></p>
+  </div>
+</div>
+
+<script>
+function updateCGPASlider() {
+  const scale = document.getElementById('scale').value;
+  const cgpaSlider = document.getElementById('cgpa');
+  
+  if (scale === '4') {
+    cgpaSlider.max = 4;
+    if (parseFloat(cgpaSlider.value) > 4) cgpaSlider.value = 3.5;
+  } else {
+    cgpaSlider.max = 10;
+  }
+  updateSliderValue('cgpa');
+}
+
+function updateSliderValue(id) {
+  const slider = document.getElementById(id);
+  let val = parseFloat(slider.value);
+  
+  if (id === 'cgpa') {
+    val = val.toFixed(1);
+  } else {
+    val = Math.round(val);
+  }
+  
+  // Handle special span IDs
+  let spanId = id + 'Value';
+  if (id === 'academic_pressure') spanId = 'acadValue';
+  if (id === 'study_satisfaction') spanId = 'satValue';
+  if (id === 'financial_stress') spanId = 'finValue';
+  
+  const span = document.getElementById(spanId);
+  if (span) span.textContent = val;
+}
+
+function calculateRisk() {
+  let cgpaInput = parseFloat(document.getElementById('cgpa').value) || 7;
+  const scale = document.getElementById('scale').value;
+  let cgpa10 = scale === '4' ? cgpaInput * 2.5 : cgpaInput;
+
+  const suicidal = document.querySelector('input[name="suicidal"]:checked').value === 'Yes' ? 1 : 0;
+  const pressure = parseFloat(document.getElementById('academic_pressure').value) || 3;
+  const satisfaction = parseFloat(document.getElementById('study_satisfaction').value) || 3;
+  const financial = parseFloat(document.getElementById('financial_stress').value) || 2;
+  const sleepBad = document.getElementById('sleep').value === 'Less than 5 hours' ? 1 : 0;
+
+  let score = 0;
+  score += suicidal * 38;
+  score += (5 - satisfaction) * 9;
+  score += pressure * 7;
+  score += (10 - cgpa10) * 2.8;
+  score += financial * 6;
+  score += sleepBad * 15;
+
+  score = Math.min(Math.max(Math.round(score), 12), 94);
+  return {score, cgpaInput: cgpaInput.toFixed(1), cgpa10: cgpa10.toFixed(1)};
+}
+
+function getPrediction() {
+  const {score, cgpaInput, cgpa10} = calculateRisk();
+  const resultEl = document.getElementById('result');
+  const confEl = document.getElementById('confidence');
+
+  if (score > 65) {
+    resultEl.innerHTML = `🔴 HIGH RISK — ${score}%`;
+    resultEl.className = 'result high';
+  } else if (score > 45) {
+    resultEl.innerHTML = `🟠 MODERATE RISK — ${score}%`;
+    resultEl.className = 'result moderate';
+  } else {
+    resultEl.innerHTML = `🟢 LOW RISK — ${score}%`;
+    resultEl.className = 'result low';
+  }
+  
+  confEl.innerHTML = `CGPA: ${cgpaInput} → <strong>${cgpa10}</strong> (on 10-scale)`;
+}
+
+function resetForm() {
+  document.getElementById('scale').value = '10';
+  updateCGPASlider();
+  
+  document.getElementById('age').value = 22;
+  document.getElementById('academic_pressure').value = 3;
+  document.getElementById('study_satisfaction').value = 3;
+  document.getElementById('financial_stress').value = 2;
+  document.getElementById('sleep').value = '7-8 hours';
+  document.getElementById('diet').value = 'Moderate';
+  
+  document.querySelector('input[name="suicidal"][value="No"]').checked = true;
+  document.querySelector('input[name="family"][value="No"]').checked = true;
+
+  updateSliderValue('age');
+  updateSliderValue('academic_pressure');
+  updateSliderValue('study_satisfaction');
+  updateSliderValue('financial_stress');
+  updateSliderValue('cgpa');
+
+  document.getElementById('result').innerHTML = 'Click "Get Prediction" after filling all details';
+  document.getElementById('result').className = 'result';
+  document.getElementById('confidence').innerHTML = '';
+}
+
+window.onload = () => {
+  updateCGPASlider();
+};
+</script>
+</body>
+</html>
