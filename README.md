@@ -39,4 +39,4 @@ This is **my first individual project** built completely on my own **without any
 
 ---
 
-### 📁 Project Structure
+
