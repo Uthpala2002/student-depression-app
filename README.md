@@ -12,7 +12,7 @@ This is **my first individual project** built completely on my own **without any
 ### 🎥 Demo Video
 
 Watch the demo here:  
-**[▶️ Watch Demo Video](https://drive.google.com/file/d/1T2WLk0dNT0zcOGanq2qq8PL1yJyzTPnG/view?usp=drive_link)**
+**[▶️ Watch Demo Video](https://drive.google.com/file/d/13Ug0jo_BKS7A15XQ7ImM_TEgC3qXQ3oA/view?usp=drive_link)**
 
 ### ✨ Features
 
